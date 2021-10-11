@@ -1,0 +1,38 @@
+app-id: io.github.webcamoid.Webcamoid
+runtime: org.kde.Platform
+runtime-version: '5.15-21.08'
+sdk: org.kde.Sdk
+command: webcomoid
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --filesystem=home
+  - --device=all
+modules:
+  - shared-modules/libusb/libusb.json
+  - name: libuvc
+    buildsystem: cmake
+    sources:
+      - type: git
+        url: https://github.com/libuvc/libuvc.git
+        tag: v0.0.6
+        commit: f3f6d8a646480fcbecc433a3a81066ddc24476e1
+        x-checker-data:
+          type: git
+          tag-pattern: v(\d+\.\d+\.\d+)
+  - name: webcamoid
+    buildsystem: qmake
+    build-options:
+      env:
+        # the following env vars make qmake install to /app instead of /usr
+        OUT_PWD: /app/
+        DATAROOTDIR: /app/
+    sources:
+      - type: git
+        url: https://github.com/webcamoid/webcamoid.git
+        tag: "8.8.0"
+        commit: 37844032321e1677a9337c54ee78cdd88bc5e620
+        x-checker-data:
+          type: git
+          tag-pattern: ([\d.]+)
