@@ -2,7 +2,7 @@ app-id: io.github.webcamoid.Webcamoid
 runtime: org.kde.Platform
 runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
-command: webcomoid
+command: webcamoid
 finish-args:
   - --share=ipc
   - --socket=x11
@@ -22,12 +22,11 @@ modules:
           type: git
           tag-pattern: v(\d+\.\d+\.\d+)
   - name: webcamoid
-    buildsystem: qmake
-    build-options:
-      env:
-        # the following env vars make qmake install to /app instead of /usr
-        OUT_PWD: /app/
-        DATAROOTDIR: /app/
+    buildsystem: simple
+    build-commands:
+      - qmake Webcamoid.pro CONFIG+=silent PREFIX=/app
+      - make
+      - make install
     sources:
       - type: git
         url: https://github.com/webcamoid/webcamoid.git
@@ -36,3 +35,6 @@ modules:
         x-checker-data:
           type: git
           tag-pattern: ([\d.]+)
+      - type: patch
+        paths:
+          - patches/0001-include-limits-in-videoformat.cpp.patch

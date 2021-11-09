@@ -1,0 +1,25 @@
+From c3c5b0501adc10b5c3f1a5fb62af29db691e596d Mon Sep 17 00:00:00 2001
+From: Luna <advaith.madhukar@gmail.com>
+Date: Sat, 16 Oct 2021 14:49:52 +0530
+Subject: [PATCH] include limits in videoformat.cpp
+
+---
+ .../VirtualCamera/src/VCamUtils/src/image/videoformat.cpp       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libAvKys/Plugins/VirtualCamera/src/VCamUtils/src/image/videoformat.cpp b/libAvKys/Plugins/VirtualCamera/src/VCamUtils/src/image/videoformat.cpp
+index 2a327323..2e07f26d 100644
+--- a/libAvKys/Plugins/VirtualCamera/src/VCamUtils/src/image/videoformat.cpp
++++ b/libAvKys/Plugins/VirtualCamera/src/VCamUtils/src/image/videoformat.cpp
+@@ -19,7 +19,7 @@
+ 
+ #include <map>
+ #include <algorithm>
+-
++#include <limits>
+ #include "videoformat.h"
+ #include "../utils.h"
+ 
+-- 
+2.32.0
+
