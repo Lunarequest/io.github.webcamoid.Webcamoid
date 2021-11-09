@@ -2,6 +2,8 @@ app-id: io.github.webcamoid.Webcamoid
 runtime: org.kde.Platform
 runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
+rename-desktop-file: webcamoid.desktop
+rename-icon: webcamoid
 command: webcamoid
 finish-args:
   - --share=ipc
@@ -9,6 +11,12 @@ finish-args:
   - --socket=wayland
   - --filesystem=home
   - --device=all
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /share/man
+  - /share/licenses
 modules:
   - shared-modules/libusb/libusb.json
   - name: libuvc
@@ -22,19 +30,17 @@ modules:
           type: git
           tag-pattern: v(\d+\.\d+\.\d+)
   - name: webcamoid
-    buildsystem: simple
-    build-commands:
-      - qmake Webcamoid.pro CONFIG+=silent PREFIX=/app
-      - make
-      - make install
+    buildsystem: cmake
+    config-opts: 
+      - -DCMAKE_INSTALL_PREFIX=/app
+    post-install:
+      - install -D io.github.webcamoid.metainfo.xml -t  /app/share/metainfo/
     sources:
       - type: git
         url: https://github.com/webcamoid/webcamoid.git
-        tag: "8.8.0"
-        commit: 37844032321e1677a9337c54ee78cdd88bc5e620
+        commit: edab00879feb32311383d0d7cac5e3c946f4fced
         x-checker-data:
           type: git
           tag-pattern: ([\d.]+)
-      - type: patch
-        paths:
-          - patches/0001-include-limits-in-videoformat.cpp.patch
+      - type: file
+        path: io.github.webcamoid.metainfo.xml
